@@ -1,0 +1,15 @@
+{
+    "name": "Infrastructure",
+    "references": [
+        "Model",
+        "Presentation"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": []
+}
