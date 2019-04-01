@@ -18,7 +18,7 @@ public class GameTestFixture
 
 	protected void Act_MarkX(int x, int y)
 	{
-		_game.MarkX(0, 0);
+		_game.MarkX(x, y);
 	}
 
 	protected void Assert_EventObserved(GameEvent gameEvent)

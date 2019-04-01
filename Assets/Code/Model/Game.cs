@@ -9,7 +9,7 @@ namespace Assets.Code.Model
 		public IObservable<GameEvent> Events => _events;
 		public void MarkX(int x, int y)
 		{
-			_events.OnNext(new XMarkedEvent(0, 0));
+			_events.OnNext(new XMarkedEvent(x, y));
 		}
 	}
 }
