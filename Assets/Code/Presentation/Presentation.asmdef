@@ -1,7 +1,9 @@
 {
     "name": "Presentation",
     "references": [
-        "Model"
+        "Model",
+        "Zenject",
+        "UniRx"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

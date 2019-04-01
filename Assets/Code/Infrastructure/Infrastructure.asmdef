@@ -2,7 +2,8 @@
     "name": "Infrastructure",
     "references": [
         "Model",
-        "Presentation"
+        "Presentation",
+        "Zenject"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
