@@ -17,7 +17,7 @@ public class CellPresenter : MonoBehaviour
 	[Inject]
 	public void Initialize(Game gameModel)
 	{
-		Button.onClick.AddListener(() => gameModel.MarkX(X, Y));
+		Button.onClick.AddListener(() => gameModel.Mark(X, Y));
 
 		gameModel.Events
 			.OfType<GameEvent, XMarkedEvent>()

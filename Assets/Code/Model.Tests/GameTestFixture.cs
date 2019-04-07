@@ -16,13 +16,21 @@ public class GameTestFixture
 		_game.Events.Subscribe(_observer);
 	}
 
-	protected void Act_MarkX(int x, int y)
+	protected void Act_Mark(int x, int y)
 	{
-		_game.MarkX(x, y);
+		_game.Mark(x, y);
 	}
 
 	protected void Assert_EventObserved(GameEvent gameEvent)
 	{
 		_observer.Received().OnNext(gameEvent);
+	}
+
+	protected void Assert_EventsObserved(params GameEvent[] gameEvents)
+	{
+		foreach (var gameEvent in gameEvents)
+		{
+			_observer.Received().OnNext(gameEvent);
+		}
 	}
 }
