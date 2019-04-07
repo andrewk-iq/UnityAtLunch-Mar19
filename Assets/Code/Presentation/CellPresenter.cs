@@ -23,5 +23,10 @@ public class CellPresenter : MonoBehaviour
 			.OfType<GameEvent, XMarkedEvent>()
 			.Where(e => e.X == X && e.Y == Y)
 			.Subscribe(_ => Text.text = "X");
+
+		gameModel.Events
+			.OfType<GameEvent, OMarkedEvent>()
+			.Where(e => e.X == X && e.Y == Y)
+			.Subscribe(_ => Text.text = "O");
 	}
 }
