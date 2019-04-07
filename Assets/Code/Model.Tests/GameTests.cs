@@ -1,31 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
+﻿using NUnit.Framework;
 
 public class GameTests : GameTestFixture
 {
 	[Test]
-	public void XMarkedAt00()
+	public void XMarked([Range(0, 2)] int x, [Range(0, 2)] int y)
 	{
-		Act_MarkX(0, 0);
+		Act_MarkX(x, y);
 
-		Assert_EventObserved(new XMarkedEvent(0, 0));
-	}
-
-	[Test]
-	public void XMarkedAt11()
-	{
-		Act_MarkX(1, 1);
-
-		Assert_EventObserved(new XMarkedEvent(1, 1));
-	}
-
-	[Test]
-	public void XMarkedAt01()
-	{
-		Act_MarkX(0, 1);
-
-		Assert_EventObserved(new XMarkedEvent(0, 1));
+		Assert_EventObserved(new XMarkedEvent(x, y));
 	}
 }
