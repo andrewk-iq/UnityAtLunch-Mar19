@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class ButtonPresenter : MonoBehaviour
+public class CellPresenter : MonoBehaviour
 {
 	public Button Button;
 
