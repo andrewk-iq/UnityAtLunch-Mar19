@@ -25,4 +25,12 @@ public class GameTestFixture
 	{
 		_observer.Received().OnNext(gameEvent);
 	}
+
+	protected void Assert_EventsObserved(params GameEvent[] gameEvents)
+	{
+		foreach (var gameEvent in gameEvents)
+		{
+			_observer.Received().OnNext(gameEvent);
+		}
+	}
 }
