@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Model;
+using NSubstitute;
 using NUnit.Framework;
 
 public class GameTests : GameTestFixture
@@ -24,5 +25,14 @@ public class GameTests : GameTestFixture
 			new XMarkedEvent(x1, y1),
 			new OMarkedEvent(x2, y2)
 		);
+	}
+
+	[Test]
+	public void MarkSameCellTwice()
+	{
+		Act_Mark(0, 0);
+		Act_Mark(0, 0);
+
+		Assert_EventNotObserved(Arg.Any<OMarkedEvent>());
 	}
 }

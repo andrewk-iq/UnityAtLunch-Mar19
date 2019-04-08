@@ -21,16 +21,21 @@ public class GameTestFixture
 		_game.Mark(x, y);
 	}
 
-	protected void Assert_EventObserved(GameEvent gameEvent)
+	protected void Assert_EventObserved(GameEvent expected, int duplicates = 1)
 	{
-		_observer.Received().OnNext(gameEvent);
+		_observer.Received(duplicates).OnNext(expected);
 	}
 
-	protected void Assert_EventsObserved(params GameEvent[] gameEvents)
+	protected void Assert_EventsObserved(params GameEvent[] expectedEvents)
 	{
-		foreach (var gameEvent in gameEvents)
+		foreach (var gameEvent in expectedEvents)
 		{
 			_observer.Received().OnNext(gameEvent);
 		}
+	}
+
+	protected void Assert_EventNotObserved(GameEvent prohibited)
+	{
+		_observer.DidNotReceive().OnNext(prohibited);
 	}
 }
