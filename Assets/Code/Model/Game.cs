@@ -26,14 +26,19 @@ namespace Assets.Code.Model
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
 			
-			if (ContainsSequenceOfX(Rows.Concat(Columns).Append(DiagonalDown).Append(DiagonalUp)))
-				_events.OnNext(new XWonEvent());
+			if (ContainsSequenceOfMark(Rows.Concat(Columns).Append(DiagonalDown).Append(DiagonalUp), _nextTurn))
+			{
+				if (_nextTurn == BoardMark.X)
+					_events.OnNext(new XWonEvent());
+				else
+					_events.OnNext(new OWonEvent());
+			}
 
 			_nextTurn = _nextTurn == BoardMark.X ? BoardMark.Y : BoardMark.X;
 		}
 
-		private static bool ContainsSequenceOfX(IEnumerable<IEnumerable<BoardMark?>> sequences)
-			=> sequences.Any(sequence => sequence.All(mark => mark == BoardMark.X));
+		private static bool ContainsSequenceOfMark(IEnumerable<IEnumerable<BoardMark?>> sequences, BoardMark expected)
+			=> sequences.Any(sequence => sequence.All(mark => mark == expected));
 
 		private IEnumerable<IEnumerable<BoardMark?>> Rows
 			=> Enumerable.Range(0, 3).Select(y => Enumerable.Range(0, 3).Select(x => _board[x, y]));
