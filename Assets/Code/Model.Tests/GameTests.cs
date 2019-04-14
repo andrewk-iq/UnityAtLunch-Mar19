@@ -58,13 +58,15 @@ public class GameTests : GameTestFixture
 	}
 
 	[Test]
-	public void XBlockedAcrossTop()
+	public void XBlockedHorizontal([Range(0, 2)] int y1)
 	{
-		Act_Mark(0, 0); // X
-		Act_Mark(0, 1); // O
-		Act_Mark(1, 0); // X
-		Act_Mark(2, 0); // O
-		Act_Mark(1, 1); // X
+		var y2 = (y1 + 1) % 3;
+
+		Act_Mark(0, y1); // X
+		Act_Mark(0, y2); // O
+		Act_Mark(1, y1); // X
+		Act_Mark(2, y1); // O
+		Act_Mark(1, y2); // X
 
 		Assert_EventNotObserved(Arg.Any<XWonEvent>());
 	}
