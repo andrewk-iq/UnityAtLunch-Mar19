@@ -37,20 +37,22 @@ public class GameTests : GameTestFixture
 	}
 
 	[Test]
-	public void XWinsAcrossTop()
+	public void XWinsHorizontal([Range(0, 2)] int y1)
 	{
-		Act_Mark(0, 0); // X
-		Act_Mark(0, 1); // O
-		Act_Mark(1, 0); // X
-		Act_Mark(1, 1); // O
-		Act_Mark(2, 0); // X
+		var y2 = (y1 + 1) % 3;
+
+		Act_Mark(0, y1); // X
+		Act_Mark(0, y2); // O
+		Act_Mark(1, y1); // X
+		Act_Mark(1, y2); // O
+		Act_Mark(2, y1); // X
 
 		Assert_EventsObserved(
-			new XMarkedEvent(0, 0),
-			new OMarkedEvent(0, 1),
-			new XMarkedEvent(1, 0),
-			new OMarkedEvent(1, 1),
-			new XMarkedEvent(2, 0),
+			new XMarkedEvent(0, y1),
+			new OMarkedEvent(0, y2),
+			new XMarkedEvent(1, y1),
+			new OMarkedEvent(1, y2),
+			new XMarkedEvent(2, y1),
 			new XWonEvent()
 		);
 	}
