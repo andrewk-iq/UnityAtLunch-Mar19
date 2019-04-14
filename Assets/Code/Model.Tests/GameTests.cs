@@ -70,4 +70,25 @@ public class GameTests : GameTestFixture
 
 		Assert_EventNotObserved(Arg.Any<XWonEvent>());
 	}
+
+	[Test]
+	public void XWinsVertical([Range(0, 2)] int x1)
+	{
+		var x2 = (x1 + 1) % 3;
+
+		Act_Mark(x1, 0); // X
+		Act_Mark(x2, 0); // O
+		Act_Mark(x1, 1); // X
+		Act_Mark(x2, 1); // O
+		Act_Mark(x1, 2); // X
+
+		Assert_EventsObserved(
+			new XMarkedEvent(x1, 0),
+			new OMarkedEvent(x2, 0),
+			new XMarkedEvent(x1, 1),
+			new OMarkedEvent(x2, 1),
+			new XMarkedEvent(x1, 2),
+			new XWonEvent()
+		);
+	}
 }
