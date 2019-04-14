@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 
@@ -25,10 +26,13 @@ namespace Assets.Code.Model
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
 			
-			if (_board[0, 0] == BoardMark.X && _board[1, 0] == BoardMark.X && _board[2, 0] == BoardMark.X)
+			if (Rows.Any(row => row.All(mark => mark == BoardMark.X)))
 				_events.OnNext(new XWonEvent());
 
 			_nextTurn = _nextTurn == BoardMark.X ? BoardMark.Y : BoardMark.X;
 		}
+
+		private IEnumerable<IEnumerable<BoardMark?>> Rows
+			=> Enumerable.Range(0, 3).Select(y => Enumerable.Range(0, 3).Select(x => _board[x, y]));
 	}
 }
