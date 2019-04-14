@@ -91,4 +91,23 @@ public class GameTests : GameTestFixture
 			new XWonEvent()
 		);
 	}
+
+	[Test]
+	public void XWinsDiagonalDown()
+	{
+		Act_Mark(0, 0); // X
+		Act_Mark(1, 0); // O
+		Act_Mark(1, 1); // X
+		Act_Mark(2, 1); // O
+		Act_Mark(2, 2); // X
+
+		Assert_EventsObserved(
+			new XMarkedEvent(0, 0),
+			new OMarkedEvent(1, 0),
+			new XMarkedEvent(1, 1),
+			new OMarkedEvent(2, 1),
+			new XMarkedEvent(2, 2),
+			new XWonEvent()
+		);
+	}
 }
