@@ -26,7 +26,7 @@ namespace Assets.Code.Model
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
 			
-			if (ContainsSequenceOfX(Rows.Concat(Columns)))
+			if (ContainsSequenceOfX(Rows.Concat(Columns).Append(DiagonalDown)))
 				_events.OnNext(new XWonEvent());
 
 			_nextTurn = _nextTurn == BoardMark.X ? BoardMark.Y : BoardMark.X;
@@ -40,5 +40,8 @@ namespace Assets.Code.Model
 
 		private IEnumerable<IEnumerable<BoardMark?>> Columns
 			=> Enumerable.Range(0, 3).Select(x => Enumerable.Range(0, 3).Select(y => _board[x, y]));
+
+		private IEnumerable<BoardMark?> DiagonalDown
+			=> Enumerable.Range(0, 3).Select(x => _board[x, x]);
 	}
 }
