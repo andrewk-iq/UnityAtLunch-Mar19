@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UniRx;
 
 namespace Assets.Code.Model
@@ -23,6 +24,9 @@ namespace Assets.Code.Model
 				_events.OnNext(new XMarkedEvent(x, y));
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
+
+			if (_board.Cast<bool>().Count(occupied => occupied) == 5)
+				_events.OnNext(new XWonEvent());
 
 			_isXTurn = !_isXTurn;
 		}
