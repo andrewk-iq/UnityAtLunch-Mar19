@@ -54,4 +54,16 @@ public class GameTests : GameTestFixture
 			new XWonEvent()
 		);
 	}
+
+	[Test]
+	public void XBlockedAcrossTop()
+	{
+		Act_Mark(0, 0); // X
+		Act_Mark(0, 1); // O
+		Act_Mark(1, 0); // X
+		Act_Mark(2, 0); // O
+		Act_Mark(1, 1); // X
+
+		Assert_EventNotObserved(Arg.Any<XWonEvent>());
+	}
 }
