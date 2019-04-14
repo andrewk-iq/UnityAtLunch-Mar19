@@ -12,34 +12,37 @@ namespace Assets.Code.Model
 
 		private readonly BoardMark?[,] _board = new BoardMark?[3, 3];
 
-		private BoardMark _nextTurn = BoardMark.X;
+		private BoardMark _currentTurn = BoardMark.X;
 
 		public void Mark(int x, int y)
 		{
 			if (_board[x, y].HasValue)
 				return;
 
-			_board[x, y] = _nextTurn;
+			_board[x, y] = _currentTurn;
 			
-			if (_nextTurn == BoardMark.X)
+			if (_currentTurn == BoardMark.X)
 				_events.OnNext(new XMarkedEvent(x, y));
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
 			
-			if (ContainsSequenceOfMark(Rows.Concat(Columns).Append(DiagonalDown).Append(DiagonalUp), _nextTurn))
+			if (ContainsSequenceOfMark(_currentTurn))
 			{
-				if (_nextTurn == BoardMark.X)
+				if (_currentTurn == BoardMark.X)
 					_events.OnNext(new XWonEvent());
 				else
 					_events.OnNext(new OWonEvent());
 			}
 
-			_nextTurn = _nextTurn == BoardMark.X ? BoardMark.Y : BoardMark.X;
+			_currentTurn = _currentTurn == BoardMark.X ? BoardMark.Y : BoardMark.X;
 		}
 
-		private static bool ContainsSequenceOfMark(IEnumerable<IEnumerable<BoardMark?>> sequences, BoardMark expected)
-			=> sequences.Any(sequence => sequence.All(mark => mark == expected));
+		private bool ContainsSequenceOfMark(BoardMark expected)
+			=> Sequences.Any(sequence => sequence.All(mark => mark == expected));
 
+		private IEnumerable<IEnumerable<BoardMark?>> Sequences 
+			=> Rows.Concat(Columns).Append(DiagonalDown).Append(DiagonalUp);
+		
 		private IEnumerable<IEnumerable<BoardMark?>> Rows
 			=> Enumerable.Range(0, 3).Select(y => Enumerable.Range(0, 3).Select(x => _board[x, y]));
 
