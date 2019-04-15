@@ -35,4 +35,35 @@ public class GameTests : GameTestFixture
 
 		Assert_EventNotObserved(Arg.Any<OMarkedEvent>());
 	}
+
+    [Test]
+    public void XWinsAlongTop()
+    {
+        Act_Mark(0, 0); // X
+        Act_Mark(0, 1); // O
+        Act_Mark(1, 0); // X
+        Act_Mark(1, 1); // O
+        Act_Mark(2, 0); // X
+
+        Assert_EventsObserved(
+            new XMarkedEvent(0, 0),
+            new OMarkedEvent(0, 1),
+            new XMarkedEvent(1, 0),
+            new OMarkedEvent(1, 1),
+            new XMarkedEvent(2, 0),
+            new XWinsEvent()
+        );
+    }
+
+    [Test]
+    public void XBlockedAlongTop()
+    {
+        Act_Mark(0, 0); // X
+        Act_Mark(0, 1); // O
+        Act_Mark(1, 0); // X
+        Act_Mark(2, 0); // O
+        Act_Mark(2, 1); // X
+
+        Assert_EventNotObserved(Arg.Any<XWinsEvent>());
+    }
 }
