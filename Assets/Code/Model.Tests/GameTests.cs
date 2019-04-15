@@ -68,4 +68,63 @@ public class GameTests : GameTestFixture
 
         Assert_EventNotObserved(Arg.Any<XWinsEvent>());
     }
+
+    [Test]
+    public void XWinsVertical([Range(0, 2)] int x0)
+    {
+        var x1 = (x0 + 1) % 3;
+
+        Act_Mark(x0, 0); // X
+        Act_Mark(x1, 0); // O
+        Act_Mark(x0, 1); // X
+        Act_Mark(x1, 1); // O
+        Act_Mark(x0, 2); // X
+
+        Assert_EventsObserved(
+            new XMarkedEvent(x0, 0),
+            new OMarkedEvent(x1, 0),
+            new XMarkedEvent(x0, 1),
+            new OMarkedEvent(x1, 1),
+            new XMarkedEvent(x0, 2),
+            new XWinsEvent()
+        );
+    }
+
+    [Test]
+    public void XWinsDownDiagonal()
+    {
+        Act_Mark(0, 0); // X
+        Act_Mark(1, 0); // O
+        Act_Mark(1, 1); // X
+        Act_Mark(0, 1); // O
+        Act_Mark(2, 2); // X
+
+        Assert_EventsObserved(
+            new XMarkedEvent(0, 0),
+            new OMarkedEvent(1, 0),
+            new XMarkedEvent(1, 1),
+            new OMarkedEvent(0, 1),
+            new XMarkedEvent(2, 2),
+            new XWinsEvent()
+        );
+    }
+
+    [Test]
+    public void XWinsUpDiagonal()
+    {
+        Act_Mark(0, 2); // X
+        Act_Mark(1, 0); // O
+        Act_Mark(1, 1); // X
+        Act_Mark(0, 1); // O
+        Act_Mark(2, 0); // X
+
+        Assert_EventsObserved(
+            new XMarkedEvent(0, 2),
+            new OMarkedEvent(1, 0),
+            new XMarkedEvent(1, 1),
+            new OMarkedEvent(0, 1),
+            new XMarkedEvent(2, 0),
+            new XWinsEvent()
+        );
+    }
 }
