@@ -58,6 +58,30 @@ public class GameTests : GameTestFixture
     }
 
     [Test]
+    public void OWinsHorizontal([Range(0, 2)] int y0)
+    {
+        var y1 = (y0 + 1) % 3;
+        var y2 = (y0 + 2) % 3;
+
+        Act_Mark(0, y2); // X
+        Act_Mark(0, y0); // O
+        Act_Mark(1, y1); // X
+        Act_Mark(1, y0); // O
+        Act_Mark(2, y1); // X
+        Act_Mark(2, y0); // O
+
+        Assert_EventsObserved(
+            new XMarkedEvent(0, y2),
+            new OMarkedEvent(0, y0),
+            new XMarkedEvent(1, y1),
+            new OMarkedEvent(1, y0),
+            new XMarkedEvent(2, y1),
+            new OMarkedEvent(2, y0),
+            new OWinsEvent()
+        );
+    }
+
+    [Test]
     public void XBlockedAlongTop()
     {
         Act_Mark(0, 0); // X

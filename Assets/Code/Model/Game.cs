@@ -26,14 +26,19 @@ namespace Assets.Code.Model
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
 
-			if (AnySequenceAllX(Rows.Concat(Columns).Append(DownDiagonal).Append(UpDiagonal)))
+			if (AnySequenceAllExpectedMark(BoardMark.X))
 				_events.OnNext(new XWinsEvent());
+            else if (AnySequenceAllExpectedMark(BoardMark.O))
+                _events.OnNext(new OWinsEvent());
 
             _currentMark = _currentMark == BoardMark.X ? BoardMark.O : BoardMark.X;
         }
 
-        private static bool AnySequenceAllX(IEnumerable<IEnumerable<BoardMark?>> sequences) 
-            => sequences.Any(sequence => sequence.All(mark => mark == BoardMark.X));
+        private bool AnySequenceAllExpectedMark(BoardMark expected) 
+            => Sequences.Any(sequence => sequence.All(mark => mark == expected));
+
+        private IEnumerable<IEnumerable<BoardMark?>> Sequences
+            => Rows.Concat(Columns).Append(DownDiagonal).Append(UpDiagonal);
 
         private IEnumerable<IEnumerable<BoardMark?>> Rows
             => Enumerable.Range(0, 3).Select(y => Enumerable.Range(0, 3).Select(x => _board[x, y]));
