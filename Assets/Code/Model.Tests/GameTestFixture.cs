@@ -21,6 +21,9 @@ public class GameTestFixture
 		_game.Mark(x, y);
 	}
 
+	protected void Act_Restart()
+		=> _game.Restart();
+
 	protected void Assert_EventObserved(GameEvent expected, int duplicates = 1)
 	{
 		_observer.Received(duplicates).OnNext(expected);
@@ -28,10 +31,13 @@ public class GameTestFixture
 
 	protected void Assert_EventsObserved(params GameEvent[] expectedEvents)
 	{
-		foreach (var gameEvent in expectedEvents)
+		Received.InOrder(() =>
 		{
-			_observer.Received().OnNext(gameEvent);
-		}
+			foreach (var gameEvent in expectedEvents)
+			{
+				_observer.Received().OnNext(gameEvent);
+			}
+		});
 	}
 
 	protected void Assert_EventNotObserved(GameEvent prohibited)

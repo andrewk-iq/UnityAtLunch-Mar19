@@ -28,5 +28,9 @@ public class CellPresenter : MonoBehaviour
 			.OfType<GameEvent, OMarkedEvent>()
 			.Where(e => e.X == X && e.Y == Y)
 			.Subscribe(_ => CellText.text = "O");
+
+		gameModel.Events
+			.OfType<GameEvent, RestartedEvent>()
+			.Subscribe(_ => CellText.text = string.Empty);
 	}
 }

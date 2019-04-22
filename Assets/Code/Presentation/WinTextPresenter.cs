@@ -18,5 +18,9 @@ public class WinTextPresenter : MonoBehaviour
 		gameModel.Events
 			.OfType<GameEvent, OWinsEvent>()
 			.Subscribe(_ => WinText.text = "O Wins");
+
+		gameModel.Events
+			.OfType<GameEvent, RestartedEvent>()
+			.Subscribe(_ => WinText.text = string.Empty);
 	}
 }

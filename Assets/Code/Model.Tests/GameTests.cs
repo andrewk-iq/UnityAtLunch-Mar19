@@ -164,4 +164,58 @@ public class GameTests : GameTestFixture
 
 		Assert_EventNotObserved(new OMarkedEvent(2, 0));
 	}
+
+	[Test]
+	public void RestartAfterWin()
+	{
+		Act_Mark(0, 0); // X
+		Act_Mark(1, 0); // O
+		Act_Mark(1, 1); // X
+		Act_Mark(0, 1); // O
+		Act_Mark(2, 2); // X
+
+		Act_Restart();
+
+		Assert_EventsObserved(
+			new XWinsEvent(),
+			new RestartedEvent()
+		);
+	}
+
+	[Test]
+	public void XMarkedThenRestartAndMarkXAgain([Range(0, 2)] int x, [Range(0, 2)] int y)
+	{
+		Act_Mark(x, y);
+
+		Act_Restart();
+
+		Act_Mark(x, y);
+
+		Assert_EventsObserved(
+			new XMarkedEvent(x, y),
+			new RestartedEvent(),
+			new XMarkedEvent(x, y)
+		);
+	}
+
+	[Test]
+	public void RestartAfterWinThenMarkX()
+	{
+		Act_Mark(0, 0); // X
+		Act_Mark(1, 0); // O
+		Act_Mark(1, 1); // X
+		Act_Mark(0, 1); // O
+		Act_Mark(2, 2); // X
+
+		Act_Restart();
+
+		Act_Mark(0, 0);
+
+		Assert_EventsObserved(
+			new XMarkedEvent(0, 0),
+			new XWinsEvent(),
+			new RestartedEvent(),
+			new XMarkedEvent(0, 0)
+		);
+	}
 }

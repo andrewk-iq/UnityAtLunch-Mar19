@@ -58,5 +58,22 @@ namespace Assets.Code.Model
 
 		private IEnumerable<BoardMark?> UpDiagonal
 			=> Enumerable.Range(0, 3).Select(x => _board[x, 2 - x]);
+
+		public void Restart()
+		{
+			_currentMark = BoardMark.X;
+
+			foreach (var x in Enumerable.Range(0, 3))
+			{
+				foreach (var y in Enumerable.Range(0, 3))
+				{
+					_board[x, y] = null;
+				}
+			}
+
+			_gameWon = false;
+
+			_events.OnNext(new RestartedEvent());
+		}
 	}
 }
