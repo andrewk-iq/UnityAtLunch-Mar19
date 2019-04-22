@@ -14,9 +14,11 @@ namespace Assets.Code.Model
 
 		private BoardMark _currentMark;
 
+		private bool _gameWon;
+
 		public void Mark(int x, int y)
 		{
-			if (_board[x, y].HasValue)
+			if (_gameWon || _board[x, y].HasValue)
 				return;
 
 			_board[x, y] = _currentMark;
@@ -26,10 +28,15 @@ namespace Assets.Code.Model
 			else
 				_events.OnNext(new OMarkedEvent(x, y));
 
-			if (AnySequenceAllExpectedMark(BoardMark.X))
-				_events.OnNext(new XWinsEvent());
-			else if (AnySequenceAllExpectedMark(BoardMark.O))
-				_events.OnNext(new OWinsEvent());
+			if (AnySequenceAllExpectedMark(_currentMark))
+			{
+				_gameWon = true;
+
+				if (_currentMark == BoardMark.X)
+					_events.OnNext(new XWinsEvent());
+				else
+					_events.OnNext(new OWinsEvent());
+			}
 
 			_currentMark = _currentMark == BoardMark.X ? BoardMark.O : BoardMark.X;
 		}
